@@ -1,0 +1,5 @@
+﻿  dllmain.cpp
+C:\Users\kbtak\Desktop\Game Hacking Project\Game Hacking Project\dllmain.cpp(17,41): warning C4305: '=': truncation from 'int' to 'int8_t'
+C:\Users\kbtak\Desktop\Game Hacking Project\Game Hacking Project\dllmain.cpp(17,38): warning C4309: '=': truncation of constant value
+C:\Users\kbtak\Desktop\Game Hacking Project\Game Hacking Project\dllmain.cpp(39,51): warning C4312: 'type cast': conversion from 'DWORD' to 'LPCWSTR' of greater size
+  Game Hacking Project.vcxproj -> C:\Users\kbtak\Desktop\Game Hacking Project\x64\Debug\Game Hacking Project.dll
