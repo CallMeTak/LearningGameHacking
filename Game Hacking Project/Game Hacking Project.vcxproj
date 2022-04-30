@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameObjects.h" />
+    <ClInclude Include="Offsets.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>

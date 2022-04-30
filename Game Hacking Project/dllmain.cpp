@@ -1,11 +1,10 @@
 #include "pch.h"
 #include "GameObjects.h"
+#include "Offsets.h"
 
 void listEnts();
 bool isValidEnt(Ent* ent);
 
-#define EntityListOffset 0x10F4F8
-#define numPlayersOffset 0x10F500
 // Gets the base of the module
 uintptr_t modBase = (uintptr_t)GetModuleHandle(L"ac_client.exe");
 
@@ -24,6 +23,7 @@ DWORD WINAPI MyThread(HMODULE hModule) {
     bool noRecoil = false;
     bool noClip = false;
     bool maxHealth = false;
+
     while (!unload) {
         // Sleep for a short time to avoid performance loss
         std::this_thread::sleep_for(std::chrono::milliseconds(30));
@@ -106,10 +106,16 @@ BOOL APIENTRY DllMain(
 
 
 void listEnts() {
+    // Create a pointer to the EntityList
     EntList* entList = *(EntList**)(modBase + EntityListOffset);
+
     unsigned int numPlayers = *(int*)(modBase + numPlayersOffset);
+
     std::cout << "Numplayers is: " << std::dec << numPlayers << '\n';
+
+    // Loop through each player in entList
     for (unsigned int i = 0; i < numPlayers; i++) {
+        // If this ent is valid, then print its name
         if (isValidEnt(entList->ents[i])) {
             std::cout << entList->ents[i]->name << '\n';
         }
@@ -119,6 +125,8 @@ void listEnts() {
 
 bool isValidEnt(Ent* ent) {
     if (ent) {
+        // Checks location of vTable to determine is Ent is a pleyerent or botent
+
         if (ent->vTable == 0x4E4A98 || ent->vTable == 0x4E4AC0) {
             return true;
         }
