@@ -154,7 +154,6 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameObjects.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Ent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />

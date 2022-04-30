@@ -1,5 +1,13 @@
 #include "pch.h"
-#include "Ent.h"
+#include "GameObjects.h"
+
+void listEnts();
+bool isValidEnt(Ent* ent);
+
+#define EntityListOffset 0x10F4F8
+#define numPlayersOffset 0x10F500
+// Gets the base of the module
+uintptr_t modBase = (uintptr_t)GetModuleHandle(L"ac_client.exe");
 
 DWORD WINAPI MyThread(HMODULE hModule) {
     // Creates a new console
@@ -7,10 +15,8 @@ DWORD WINAPI MyThread(HMODULE hModule) {
     FILE* f;
     // Redirects output to this console
     freopen_s(&f, "CONOUT$", "w", stdout);
-    std::cout << "This is working \n";
+    std::cout << "This is working. \n";
 
-    // Gets the base of the module
-    uintptr_t modBase = (uintptr_t)GetModuleHandle(L"ac_client.exe");
     std::cout << "modBase: " << std::hex << modBase << "\n";
 
     Ent* localPlayerPtr{ nullptr };
@@ -70,6 +76,10 @@ DWORD WINAPI MyThread(HMODULE hModule) {
             maxHealth = !maxHealth;
             std::cout << "Max health toggled.\n";
         }
+        // Print health of all entities
+        if (GetAsyncKeyState(VK_NUMPAD6) & 1) {
+            listEnts();
+        }
     }
     // Closes the stream, exits the console, and exits the thread
     fclose(f);
@@ -93,3 +103,25 @@ BOOL APIENTRY DllMain(
         }
         return TRUE;
     }
+
+
+void listEnts() {
+    EntList* entList = *(EntList**)(modBase + EntityListOffset);
+    unsigned int numPlayers = *(int*)(modBase + numPlayersOffset);
+    std::cout << "Numplayers is: " << std::dec << numPlayers << '\n';
+    for (unsigned int i = 0; i < numPlayers; i++) {
+        if (isValidEnt(entList->ents[i])) {
+            std::cout << entList->ents[i]->name << '\n';
+        }
+    }
+
+}
+
+bool isValidEnt(Ent* ent) {
+    if (ent) {
+        if (ent->vTable == 0x4E4A98 || ent->vTable == 0x4E4AC0) {
+            return true;
+        }
+    }
+    return false;
+}
