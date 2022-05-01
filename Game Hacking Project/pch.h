@@ -15,5 +15,8 @@
 #include <thread>
 #include <chrono>
 #include <iostream>
+#include <string>
+#include <vector>
+#include <TlHelp32.h>
 
 #endif // PCH_H

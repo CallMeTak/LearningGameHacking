@@ -2,21 +2,36 @@
 #include "pch.h"
 class Ent;
 
-// Created with ReClass.NET 1.2 by KN4CK3R
+struct Vec3 {
+	float x, y, z;
+	Vec3(float x, float y, float z) : x(x), y(y), z(z) {};
+	const Vec3 operator-(const Vec3& rhs) {
+		Vec3 vec(0, 0, 0);
+		vec.x = this->x - rhs.x;
+		vec.y = this->y - rhs.y;
+		vec.z = this->z - rhs.z;
+		return vec;
+	};
+	float Magnitude() {
+		return sqrt(x * x + y * x + z * z);
+	}
+	std::string toString() {
+		return std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z);
+	}
+
+};
 
 struct EntList {
 	Ent* ents[31];
 };
-struct Vec3 {
-	int x, y, z;
-};
 
 using Vector3 = Vec3;
 
+// Created with ReClass.NET 1.2 by KN4CK3R
 class Ent
 {
 public:
-	DWORD vTable; //0x0000
+	uint32_t vTable; //0x0000
 	Vector3 headPos; //0x0004
 	char pad_0010[36]; //0x0010
 	Vector3 playerPos; //0x0034
